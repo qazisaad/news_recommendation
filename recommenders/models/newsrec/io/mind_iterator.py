@@ -1,7 +1,7 @@
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License.
 
-import tensorflow as tf
+
 import numpy as np
 import pickle
 
@@ -75,7 +75,7 @@ class MINDIterator(BaseIterator):
         self.nid2index = {}
         news_title = [""]
 
-        with tf.io.gfile.GFile(news_file, "r") as rd:
+        with open(news_file, "r", encoding='utf-8') as rd:
             for line in rd:
                 nid, vert, subvert, title, ab, url, _, _ = line.strip("\n").split(
                     self.col_spliter
@@ -112,7 +112,7 @@ class MINDIterator(BaseIterator):
         self.impr_indexes = []
         self.uindexes = []
 
-        with tf.io.gfile.GFile(behaviors_file, "r") as rd:
+        with open(behaviors_file, "r") as rd:
             impr_index = 0
             for line in rd:
                 uid, time, history, impr = line.strip("\n").split(self.col_spliter)[-4:]
