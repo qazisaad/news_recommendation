@@ -50,6 +50,7 @@ class MINDIterator(BaseIterator):
         self.title_size = hparams.title_size
         self.his_size = hparams.his_size
         self.npratio = npratio
+        self.cold_his_size = hparams.cold_his_size
 
         self.word_dict = self.load_dict(hparams.wordDict_file)
         self.uid2index = self.load_dict(hparams.userDict_file)
@@ -111,19 +112,19 @@ class MINDIterator(BaseIterator):
         self.labels = []
         self.impr_indexes = []
         self.uindexes = []
+        self.is_cold = []
 
         with open(behaviors_file, "r") as rd:
             impr_index = 0
             for line in rd:
                 uid, time, history, impr = line.strip("\n").split(self.col_spliter)[-4:]
-
                 history = [self.nid2index[i] for i in history.split()]
+                is_cold = True if len(history) > self.cold_his_size else False 
                 history = [0] * (self.his_size - len(history)) + history[
                     : self.his_size
                 ]
-
                 impr_news = [self.nid2index[i.split("-")[0]] for i in impr.split()]
-                label = [int(i.split("-")[1]) for i in impr.split()]
+                label = [int(i.split("-")[1]) for i in impr.split()]    
                 uindex = self.uid2index[uid] if uid in self.uid2index else 0
 
                 self.histories.append(history)
@@ -131,10 +132,12 @@ class MINDIterator(BaseIterator):
                 self.labels.append(label)
                 self.impr_indexes.append(impr_index)
                 self.uindexes.append(uindex)
+                self.is_cold.append(is_cold)
                 impr_index += 1
 
     def parser_one_line(self, line):
-        """Parse one behavior sample into feature values.
+        """
+        Parse one behavior sample into feature values.
         if npratio is larger than 0, return negtive sampled result.
 
         Args:
