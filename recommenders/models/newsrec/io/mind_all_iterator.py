@@ -463,6 +463,7 @@ class MINDAllIterator(BaseIterator):
         cnt = 0
 
         for index in range(len(self.impr_indexes)):
+            
             click_title_indexes.append(self.news_title_index[self.histories[index]])
             click_title.append(self.news_title[self.histories[index]])
             click_ab_indexes.append(self.news_ab_index[self.histories[index]])
@@ -489,6 +490,7 @@ class MINDAllIterator(BaseIterator):
                 click_ab_indexes = []
                 click_vert_indexes = []
                 click_subvert_indexes = []
+                cnt = 0
 
     def _convert_user_data(
         self,
@@ -575,6 +577,7 @@ class MINDAllIterator(BaseIterator):
                 candidate_ab_indexes = []
                 candidate_vert_indexes = []
                 candidate_subvert_indexes = []
+                cnt = 0
 
     def _convert_news_data(
         self,
