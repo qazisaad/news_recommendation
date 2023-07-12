@@ -456,6 +456,7 @@ class MINDAllIterator(BaseIterator):
         user_indexes = []
         impr_indexes = []
         click_title_indexes = []
+        click_title = []
         click_ab_indexes = []
         click_vert_indexes = []
         click_subvert_indexes = []
@@ -463,6 +464,7 @@ class MINDAllIterator(BaseIterator):
 
         for index in range(len(self.impr_indexes)):
             click_title_indexes.append(self.news_title_index[self.histories[index]])
+            click_title.append(self.news_title[self.histories[index]])
             click_ab_indexes.append(self.news_ab_index[self.histories[index]])
             click_vert_indexes.append(self.news_vert_index[self.histories[index]])
             click_subvert_indexes.append(self.news_subvert_index[self.histories[index]])
@@ -475,6 +477,7 @@ class MINDAllIterator(BaseIterator):
                     user_indexes,
                     impr_indexes,
                     click_title_indexes,
+                    click_title,
                     click_ab_indexes,
                     click_vert_indexes,
                     click_subvert_indexes,
@@ -482,6 +485,7 @@ class MINDAllIterator(BaseIterator):
                 user_indexes = []
                 impr_indexes = []
                 click_title_indexes = []
+                click_title = []
                 click_ab_indexes = []
                 click_vert_indexes = []
                 click_subvert_indexes = []
@@ -491,6 +495,7 @@ class MINDAllIterator(BaseIterator):
         user_indexes,
         impr_indexes,
         click_title_indexes,
+        click_title,
         click_ab_indexes,
         click_vert_indexes,
         click_subvert_indexes,
@@ -511,6 +516,7 @@ class MINDAllIterator(BaseIterator):
         user_indexes = np.asarray(user_indexes, dtype=np.int32)
         impr_indexes = np.asarray(impr_indexes, dtype=np.int32)
         click_title_index_batch = np.asarray(click_title_indexes, dtype=np.int64)
+        click_title_batch = np.asarray(click_title)
         click_ab_index_batch = np.asarray(click_ab_indexes, dtype=np.int64)
         click_vert_index_batch = np.asarray(click_vert_indexes, dtype=np.int64)
         click_subvert_index_batch = np.asarray(click_subvert_indexes, dtype=np.int64)
@@ -519,6 +525,7 @@ class MINDAllIterator(BaseIterator):
             "user_index_batch": user_indexes,
             "impr_index_batch": impr_indexes,
             "clicked_title_batch": click_title_index_batch,
+            "clicked_title_token_batch": click_title_batch,
             "clicked_ab_batch": click_ab_index_batch,
             "clicked_vert_batch": click_vert_index_batch,
             "clicked_subvert_batch": click_subvert_index_batch,
@@ -538,6 +545,7 @@ class MINDAllIterator(BaseIterator):
 
         news_indexes = []
         candidate_title_indexes = []
+        candidate_title = []
         candidate_ab_indexes = []
         candidate_vert_indexes = []
         candidate_subvert_indexes = []
@@ -546,6 +554,7 @@ class MINDAllIterator(BaseIterator):
         for index in range(len(self.news_title_index)):
             news_indexes.append(index)
             candidate_title_indexes.append(self.news_title_index[index])
+            candidate_title.append(self.news_title[index])
             candidate_ab_indexes.append(self.news_ab_index[index])
             candidate_vert_indexes.append(self.news_vert_index[index])
             candidate_subvert_indexes.append(self.news_subvert_index[index])
@@ -555,12 +564,14 @@ class MINDAllIterator(BaseIterator):
                 yield self._convert_news_data(
                     news_indexes,
                     candidate_title_indexes,
+                    candidate_title,
                     candidate_ab_indexes,
                     candidate_vert_indexes,
                     candidate_subvert_indexes,
                 )
                 news_indexes = []
                 candidate_title_indexes = []
+                candidate_title = []
                 candidate_ab_indexes = []
                 candidate_vert_indexes = []
                 candidate_subvert_indexes = []
@@ -569,6 +580,7 @@ class MINDAllIterator(BaseIterator):
         self,
         news_indexes,
         candidate_title_indexes,
+        candidate_title,
         candidate_ab_indexes,
         candidate_vert_indexes,
         candidate_subvert_indexes,
@@ -590,6 +602,9 @@ class MINDAllIterator(BaseIterator):
         candidate_title_index_batch = np.asarray(
             candidate_title_indexes, dtype=np.int32
         )
+        candidate_title_batch = np.asarray(
+            candidate_title
+        )
         candidate_ab_index_batch = np.asarray(candidate_ab_indexes, dtype=np.int32)
         candidate_vert_index_batch = np.asarray(candidate_vert_indexes, dtype=np.int32)
         candidate_subvert_index_batch = np.asarray(
@@ -599,6 +614,7 @@ class MINDAllIterator(BaseIterator):
         return {
             "news_index_batch": news_indexes_batch,
             "candidate_title_batch": candidate_title_index_batch,
+            "candidate_title_token_batch": candidate_title_batch,
             "candidate_ab_batch": candidate_ab_index_batch,
             "candidate_vert_batch": candidate_vert_index_batch,
             "candidate_subvert_batch": candidate_subvert_index_batch,

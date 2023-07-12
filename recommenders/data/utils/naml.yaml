@@ -20,7 +20,7 @@ model:
   attention_hidden_dim: 200
   word_emb_dim: 768
   vert_emb_dim: 100
-  subvert_emb_dim: 100
+  subvert_emb_dim: 384
 
   dropout: 0.2
   filter_num: 400

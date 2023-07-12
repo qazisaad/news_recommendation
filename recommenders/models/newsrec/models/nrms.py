@@ -28,6 +28,8 @@ class DocEncoder(nn.Module):
             self.embedding.weight = nn.Parameter(self.embedding.weight.float())
         self.tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
         self.model = BertModel.from_pretrained('bert-base-uncased')
+        for param in self.model.parameters():
+            param.requires_grad = False
         self.mha = nn.MultiheadAttention(hparams.word_emb_dim, num_heads=hparams.head_num, dropout=0.1)
         self.proj = nn.Linear(hparams.word_emb_dim, hparams.word_emb_dim)
         self.additive_attn = AdditiveAttention(hparams.word_emb_dim, hparams.attention_hidden_dim)
