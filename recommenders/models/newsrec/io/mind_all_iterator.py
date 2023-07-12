@@ -491,6 +491,17 @@ class MINDAllIterator(BaseIterator):
                 click_vert_indexes = []
                 click_subvert_indexes = []
                 cnt = 0
+        if cnt > 0:
+            yield self._convert_user_data(
+                    user_indexes,
+                    impr_indexes,
+                    click_title_indexes,
+                    click_title,
+                    click_ab_indexes,
+                    click_vert_indexes,
+                    click_subvert_indexes,
+                )
+
 
     def _convert_user_data(
         self,
@@ -578,6 +589,15 @@ class MINDAllIterator(BaseIterator):
                 candidate_vert_indexes = []
                 candidate_subvert_indexes = []
                 cnt = 0
+        if cnt > 0:
+            yield self._convert_news_data(
+                    news_indexes,
+                    candidate_title_indexes,
+                    candidate_title,
+                    candidate_ab_indexes,
+                    candidate_vert_indexes,
+                    candidate_subvert_indexes,
+                )
 
     def _convert_news_data(
         self,
